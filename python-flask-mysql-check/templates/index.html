@@ -1,0 +1,43 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL Connection Checker</title>
+</head>
+<body>
+    <h1>MySQL Connection Checker</h1>
+    <form id="mysqlForm" action="/check_mysql_connection" method="post">
+        <label for="host">Host:</label>
+        <input type="text" id="host" name="host" required><br><br>
+        <label for="user">User:</label>
+        <input type="text" id="user" name="user" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="port">Port:</label>
+        <input type="text" id="port" name="port" required><br><br>
+        <input type="submit" value="Check Connection">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('mysqlForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = JSON.stringify(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
